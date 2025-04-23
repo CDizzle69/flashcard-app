@@ -8,7 +8,7 @@ from docx import Document
 st.set_page_config(page_title="Flashcard Review", layout="centered")
 
 # --- Settings ---
-FLASHCARD_FOLDER = "flashcards"
+FLASHCARD_FOLDER = "flashcard_app/flashcards"
 DATA_FOLDER = "data"
 TAGS = ["Important", "Very Important", "Review Later"]
 

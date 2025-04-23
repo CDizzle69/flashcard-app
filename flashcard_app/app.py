@@ -9,7 +9,7 @@ st.set_page_config(page_title="Flashcard Review", layout="centered")
 
 # --- Settings ---
 FLASHCARD_FOLDER = "flashcard_app/flashcards"
-DATA_FOLDER = "data"
+DATA_FOLDER = "progress"
 TAGS = ["Important", "Very Important", "Review Later"]
 
 # --- Utils ---

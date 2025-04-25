@@ -75,14 +75,21 @@ num_q = st.slider("How many questions?", 1, min(50, len(qa_pairs)), 10)
 qa_pairs = random.sample(qa_pairs, min(num_q, len(qa_pairs)))
 
 # Add the "Go" button here
+if 'flashcards' not in st.session_state:
+    st.session_state.flashcards = []
+
 if st.button('Go'):
-    # --- Flashcard Loop ---
-    for qa in qa_pairs:
+    # Store flashcards in session state once 'Go' is pressed
+    st.session_state.flashcards = qa_pairs
+
+# --- Flashcard Loop ---
+if st.session_state.flashcards:
+    for qa in st.session_state.flashcards:
         qid = qa["id"]
         st.markdown("----")
         with st.container():
-            flip = st.toggle(f"🔹 **Q:** {qa['question']}", key=f"flip_{qid}")
-            if flip:
+            # Show the question and answer only after pressing 'Go'
+            if st.button(f"🔹 **Q:** {qa['question']}", key=f"flip_{qid}"):
                 st.markdown(f"🟩 **A:** {qa['answer']}")
 
             col1, col2 = st.columns(2)

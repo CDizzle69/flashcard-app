@@ -1,4 +1,3 @@
-
 import streamlit as st
 import os
 import random
@@ -75,27 +74,29 @@ if selected_tag != "All":
 num_q = st.slider("How many questions?", 1, min(50, len(qa_pairs)), 10)
 qa_pairs = random.sample(qa_pairs, min(num_q, len(qa_pairs)))
 
-# --- Flashcard Loop ---
-for qa in qa_pairs:
-    qid = qa["id"]
-    st.markdown("----")
-    with st.container():
-        flip = st.toggle(f"🔹 **Q:** {qa['question']}", key=f"flip_{qid}")
-        if flip:
-            st.markdown(f"🟩 **A:** {qa['answer']}")
+# Add the "Go" button here
+if st.button('Go'):
+    # --- Flashcard Loop ---
+    for qa in qa_pairs:
+        qid = qa["id"]
+        st.markdown("----")
+        with st.container():
+            flip = st.toggle(f"🔹 **Q:** {qa['question']}", key=f"flip_{qid}")
+            if flip:
+                st.markdown(f"🟩 **A:** {qa['answer']}")
 
-        col1, col2 = st.columns(2)
-        with col1:
-            if st.button("✅ Got it", key=f"right_{qid}"):
-                progress[qid]["correct"] += 1
-        with col2:
-            if st.button("❌ Missed it", key=f"wrong_{qid}"):
-                progress[qid]["incorrect"] += 1
+            col1, col2 = st.columns(2)
+            with col1:
+                if st.button("✅ Got it", key=f"right_{qid}"):
+                    progress[qid]["correct"] += 1
+            with col2:
+                if st.button("❌ Missed it", key=f"wrong_{qid}"):
+                    progress[qid]["incorrect"] += 1
 
-        # Tagging
-        current_tags = progress[qid]["tags"]
-        new_tags = st.multiselect("Tag this question", TAGS, default=current_tags, key=f"tag_{qid}")
-        progress[qid]["tags"] = new_tags
+            # Tagging
+            current_tags = progress[qid]["tags"]
+            new_tags = st.multiselect("Tag this question", TAGS, default=current_tags, key=f"tag_{qid}")
+            progress[qid]["tags"] = new_tags
 
-save_progress(module_name, progress)
-
+    # Save progress after the flashcard loop
+    save_progress(module_name, progress)
